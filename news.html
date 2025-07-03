@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Berita Terkini</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #overlay button {
+      font-size: 18px;
+      padding: 15px 30px;
+      background-color: #2196F3;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #web-frame {
+      width: 100%;
+      height: 85vh;
+      border: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Memuatkan Berita Terkini...</h2>
+  <p>Sila tunggu sebentar</p>
+  <iframe id="web-frame" allowfullscreen></iframe>
+
+  <div id="overlay">
+    <h3>Sokong paparan ini dengan klik penaja 👇</h3>
+    <button onclick="bukaBeritaDanShopee()">Klik Sini Untuk Teruskan</button>
+  </div>
+
+  <script>
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    const bitly = getParam("bitly");
+    const shopee = getParam("shopee");
+
+    if (!bitly || !shopee) {
+      alert("Parameter ?bitly= dan ?shopee= diperlukan dalam URL");
+    } else {
+      document.getElementById("web-frame").src = "https://bit.ly/" + bitly;
+    }
+
+    setTimeout(function () {
+      document.getElementById("overlay").style.display = "flex";
+    }, 3000);
+
+    function bukaBeritaDanShopee() {
+      const beritaURL = "https://bit.ly/" + bitly;
+      const shopeeURL = "https://s.shopee.com.my/" + shopee;
+
+      const tabShopee = window.open(shopeeURL, "_blank");
+      window.open(beritaURL, "_blank");
+
+      setTimeout(() => {
+        if (tabShopee && !tabShopee.closed) {
+          tabShopee.close();
+        }
+      }, 1000);
+
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+</body>
+</html>
