@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script>
+  const allowed = "vip30";
+  const savedPass = localStorage.getItem("vip_pass");
+  const expiry = localStorage.getItem("vip_expiry");
+
+  if (savedPass !== allowed || !expiry) {
+    window.location.href = "login_vip30_flex.html";
+  } else {
+    const now = new Date();
+    const expiryDate = new Date(expiry);
+    if (now > expiryDate) {
+      alert("Akses anda telah tamat tempoh.");
+      localStorage.removeItem("vip_pass");
+      localStorage.removeItem("vip_expiry");
+      window.location.href = "login_vip30_flex.html";
+    }
+  }
+</script>
+
+
+  <meta charset="UTF-8" />
+  <title>Link Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #generateBtn {
+      background: #007bff;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    #copyBtn {
+      background: #28a745;
+      color: white;
+    }
+
+    #output {
+      margin: 15px 0;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #333;
+      margin-top: 20px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Link Generator</h2>
+    <p>Hasilkan link redirect berdasarkan Bitly & Shopee ID</p>
+    <input type="text" id="bitlyId" placeholder="Bitly ID (contoh: 4lafE9n)" />
+    <input type="text" id="shopeeId" placeholder="Shopee ID (contoh: 9UqB7zAMoi)" />
+    <br />
+    <button id="generateBtn" onclick="generateLink()">Hasilkan Link</button>
+    <div id="output"></div>
+    <button id="copyBtn" onclick="copyLink()">Copy Link</button>
+
+    <div class="note">
+      Selepas copy link sila guna <strong>bit.ly</strong> atau shortener yang sesuai untuk anda custom link anda.
+    </div>
+  </div>
+
+  <script>
+    function generateLink() {
+      const bitly = document.getElementById("bitlyId").value.trim();
+      const shopee = document.getElementById("shopeeId").value.trim();
+      const base = "https://facebookview.github.io/pages/news";
+
+      if (bitly && shopee) {
+        const link = `${base}?bitly=${bitly}&shopee=${shopee}`;
+        document.getElementById("output").innerHTML = 
+          '<p><strong>Link Redirect:</strong><br><a href="' + link + '" target="_blank">' + link + '</a></p>';
+      } else {
+        alert("Sila masukkan kedua-dua ID.");
+      }
+    }
+
+    function copyLink() {
+      const output = document.querySelector("#output a");
+      if (!output) {
+        alert("Sila hasilkan link dahulu.");
+        return;
+      }
+
+      const temp = document.createElement("input");
+      document.body.appendChild(temp);
+      temp.value = output.href;
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      alert("Link telah disalin!");
+    }
+  </script>
+
+  <div style="max-width: 700px; margin: 40px auto; font-size: 15px; text-align: left;">
+    <h4><strong>Panduan :</strong></h4>
+    <ol>
+      <li>Cari artikel dalam website yang anda berminat short guna bit.ly, masukkan di dalam kotak bitly id hanya kod sahaja cth bit.ly/4lafE9n — hanya masukkan id <strong>4lafE9n</strong> sahaja dan bukan link penuh.</li>
+      <li>Begitu juga dengan link shopee affiliate anda, guna custom link yang anda generate Sub ID untuk mudah trace link shopee anda.</li>
+    </ol>
+  </div>
+</body>
+</html>
