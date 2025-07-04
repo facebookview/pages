@@ -1,119 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Generator Link FacebookView</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Link Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      background: #f0f0f0;
       font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 40px;
       text-align: center;
-      padding: 50px;
     }
 
     .container {
       background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
       max-width: 500px;
       margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    input[type="text"] {
-      padding: 12px;
+    input {
       width: 90%;
-      margin-bottom: 15px;
+      padding: 10px;
+      margin: 10px 0;
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
     }
 
     button {
-      padding: 10px 25px;
-      background-color: #007bff;
-      color: white;
-      font-size: 16px;
+      padding: 10px 20px;
       border: none;
       border-radius: 6px;
+      font-size: 16px;
       cursor: pointer;
+    }
+
+    #generateBtn {
+      background: #007bff;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    #copyBtn {
+      background: #28a745;
+      color: white;
     }
 
     #output {
+      margin: 15px 0;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #333;
       margin-top: 20px;
-      word-break: break-word;
-    }
-
-    #output a {
-      color: #007bff;
-    }
-
-    .logout {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      cursor: pointer;
-      color: red;
-    }
-
-    .copy-btn {
-      margin-top: 10px;
-      background-color: #28a745;
-    }
-
-    .copied-msg {
-      color: green;
-      margin-top: 8px;
-      font-size: 14px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="logout" onclick="logout()">Log Keluar</div>
-
   <div class="container">
     <h2>Link Generator</h2>
     <p>Hasilkan link redirect berdasarkan Bitly & Shopee ID</p>
-    <input type="text" id="bitly" placeholder="Masukkan Bitly ID (contoh: 4lafE9n)">
-    <input type="text" id="shopee" placeholder="Masukkan Shopee ID (contoh: 9UqB7zAMoi)">
-    <button onclick="generateLink()">Hasilkan Link</button>
+    <input type="text" id="bitlyId" placeholder="Bitly ID (contoh: 4lafE9n)" />
+    <input type="text" id="shopeeId" placeholder="Shopee ID (contoh: 9UqB7zAMoi)" />
+    <br />
+    <button id="generateBtn" onclick="generateLink()">Hasilkan Link</button>
     <div id="output"></div>
+    <button id="copyBtn" onclick="copyLink()">Copy Link</button>
+
+    <div class="note">
+      Selepas copy link sila guna <strong>bit.ly</strong> atau shortener yang sesuai untuk anda custom link anda.
+    </div>
   </div>
 
   <script>
     function generateLink() {
-      const bitly = document.getElementById("bitly").value.trim();
-      const shopee = document.getElementById("shopee").value.trim();
-      const output = document.getElementById("output");
+      const bitly = document.getElementById("bitlyId").value.trim();
+      const shopee = document.getElementById("shopeeId").value.trim();
+      const base = "https://facebookview.github.io/pages/news";
 
       if (bitly && shopee) {
-        const link = `https://facebookview.github.io/pages/news?bitly=${bitly}&shopee=${shopee}`;
-        output.innerHTML = `
-          <p><strong>Link Redirect:</strong><br>
-          <a href="${link}" target="_blank">${link}</a></p>
-          <button class="copy-btn" onclick="copyToClipboard('${link}')">Copy Link</button>
-          <div id="copiedMsg" class="copied-msg"></div>
-        `;
+        const link = `${base}?bitly=${bitly}&shopee=${shopee}`;
+        document.getElementById("output").innerHTML = 
+          '<p><strong>Link Redirect:</strong><br><a href="' + link + '" target="_blank">' + link + '</a></p>';
       } else {
-        output.innerHTML = "<p style='color:red;'>Sila masukkan kedua-dua ID.</p>";
+        alert("Sila masukkan kedua-dua ID.");
       }
     }
 
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        document.getElementById("copiedMsg").innerText = "✔️ Link telah disalin ke clipboard!";
-        setTimeout(() => {
-          document.getElementById("copiedMsg").innerText = "";
-        }, 3000);
-      });
-    }
+    function copyLink() {
+      const output = document.querySelector("#output a");
+      if (!output) {
+        alert("Sila hasilkan link dahulu.");
+        return;
+      }
 
-    function logout() {
-      localStorage.removeItem("aksesToken");
-      localStorage.removeItem("aksesExpired");
-      window.location.href = "login_generator.html";
+      const temp = document.createElement("input");
+      document.body.appendChild(temp);
+      temp.value = output.href;
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      alert("Link telah disalin!");
     }
   </script>
 </body>
