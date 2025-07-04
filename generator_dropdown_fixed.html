@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Link Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #generateBtn {
+      background: #007bff;
+      color: white;
+    }
+
+    #copyBtn {
+      background: #28a745;
+      color: white;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #333;
+      margin-top: 20px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Link Generator</h2>
+    <p>Hasilkan link redirect berdasarkan Shortener & Shopee ID</p>
+
+    <label for="shortId"><strong>Shortener ID (cth: 4lafE9n)</strong></label>
+    <input type="text" id="shortId" placeholder="Masukkan ID shortener" />
+
+    <label for="shortenerType"><strong>Pilih Shortener</strong></label>
+    <select id="shortenerType">
+      <option value="bitly">bit.ly</option>
+      <option value="tly">t.ly</option>
+      <option value="tinyurl">tinyurl.com</option>
+      <option value="tinycc">tiny.cc</option>
+      <option value="isgd">is.gd</option>
+    </select>
+
+    <label for="shopeeId"><strong>Shopee ID (cth: 9UqB7zAMoi)</strong></label>
+    <input type="text" id="shopeeId" placeholder="Masukkan Shopee ID" />
+
+    <button id="generateBtn" onclick="generateLink()">Hasilkan Link</button>
+    <div id="output"></div>
+    <button id="copyBtn" onclick="copyLink()">Copy Link</button>
+
+    <div class="note">
+      Selepas copy link sila guna shortener pilihan anda untuk custom link yang lebih mudah diingati.
+    </div>
+  </div>
+
+  <div style="max-width: 700px; margin: 40px auto; font-size: 15px; text-align: left;">
+    <h4><strong>Panduan :</strong></h4>
+    <ol>
+      <li>Cari artikel dalam website yang anda berminat short guna shortener, masukkan hanya kod sahaja (bukan URL penuh).</li>
+      <li>Begitu juga dengan link shopee affiliate anda, guna custom link yang anda generate Sub ID untuk mudah trace link shopee anda.</li>
+    </ol>
+  </div>
+
+  <script>
+    function generateLink() {
+      const shortId = document.getElementById("shortId").value.trim();
+      const shortType = document.getElementById("shortenerType").value;
+      const shopee = document.getElementById("shopeeId").value.trim();
+
+      if (shortId && shortType && shopee) {
+        const link = `https://facebookview.github.io/pages/news_dynamic_redirect.html?${shortType}=${shortId}&shopee=${shopee}`;
+        document.getElementById("output").innerHTML = 
+          '<p><strong>Link Redirect:</strong><br><a href="' + link + '" target="_blank">' + link + '</a></p>';
+      } else {
+        alert("Sila lengkapkan semua ruangan.");
+      }
+    }
+
+    function copyLink() {
+      const output = document.querySelector("#output a");
+      if (!output) {
+        alert("Sila hasilkan link dahulu.");
+        return;
+      }
+
+      const temp = document.createElement("input");
+      document.body.appendChild(temp);
+      temp.value = output.href;
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      alert("Link telah disalin!");
+    }
+  </script>
+</body>
+</html>
