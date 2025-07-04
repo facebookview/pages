@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopee First Redirect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #step2 {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="step1">
+    <h2>Redirect ke Shopee sedang diproses...</h2>
+    <p>Sila tunggu sebentar, anda akan dibawa ke Shopee</p>
+  </div>
+
+  <div id="step2">
+    <p><strong>Tekan Baca Artikel Sekarang</strong></p>
+    <button class="btn" onclick="window.location.href=targetUrl">Teruskan ke Link Akhir</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const shopee = params.get("shopee");
+
+    const shorteners = ["bitly", "tly", "tinyurl", "tinycc", "isgd"];
+    let targetUrl = "";
+
+    for (const key of shorteners) {
+      if (params.has(key)) {
+        const base = {
+          bitly: "https://bit.ly/",
+          tly: "https://t.ly/",
+          tinyurl: "https://tinyurl.com/",
+          tinycc: "https://tiny.cc/",
+          isgd: "https://is.gd/"
+        }[key];
+        targetUrl = base + params.get(key);
+        break;
+      }
+    }
+
+    if (shopee) {
+      const shopeeUrl = "https://s.shopee.com.my/" + shopee;
+      window.location.href = shopeeUrl;
+
+      setTimeout(() => {
+        document.getElementById("step1").style.display = "none";
+        document.getElementById("step2").style.display = "block";
+      }, 4000);
+    } else {
+      document.getElementById("step1").innerHTML = "<p>Parameter tidak lengkap.</p>";
+    }
+  </script>
+</body>
+</html>
