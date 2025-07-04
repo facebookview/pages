@@ -64,6 +64,27 @@
   </style>
 </head>
 <body>
+  <div id="overlay" style="
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  ">
+    <div style="background: #222; padding: 30px; border-radius: 10px; max-width: 90%; text-align: center;">
+      <h2>Akses Terhad</h2>
+      <p>Masukkan kata laluan untuk menggunakan sistem ini</p>
+      <input type="password" id="overlayPass" placeholder="Kata Laluan" style="padding: 10px; font-size: 16px; margin: 10px auto; width: 250px; border-radius: 5px;" />
+      <br/>
+      <button onclick="checkOverlay()" style="padding: 10px 20px; font-size: 16px; background: #28a745; color: white; border: none; border-radius: 5px;">Masuk</button>
+      <p id="overlayError" style="color: red; margin-top: 10px;"></p>
+    </div>
+  </div>
+
   <div class="container">
     <h2>Link Generator</h2>
     <p>Hasilkan link redirect berdasarkan Bitly & Shopee ID</p>
@@ -82,8 +103,8 @@
   <div style="max-width: 700px; margin: 40px auto; font-size: 15px; text-align: left;">
     <h4><strong>Panduan :</strong></h4>
     <ol>
-      <li>Cari artikel dalam website yang anda berminat pastikan shortkan guna bit.ly, masukkan di dalam kotak bitly kod sahaja cth <strong>bit.ly/4lafE9n</strong> — hanya masukkan id <strong>4lafE9n</strong> sahaja dan bukan link penuh.</li>
-      <li>Begitu juga dengan link shopee affiliate anda, jika link penuh <strong>https://s.shopee.com.my/9Uqb7aAMoi</strong> masukkan id <strong>9UqB7zAMoin</strong> sahaja dan bukan link penuh, guna custom link yang anda generate Sub ID untuk mudah trace link shopee anda.</li>
+      <li>Cari artikel dalam website yang anda berminat short guna bit.ly, masukkan di dalam kotak bitly id hanya kod sahaja cth bit.ly/4lafE9n — hanya masukkan id <strong>4lafE9n</strong> sahaja dan bukan link penuh.</li>
+      <li>Begitu juga dengan link shopee affiliate anda, guna custom link yang anda generate Sub ID untuk mudah trace link shopee anda.</li>
     </ol>
   </div>
 
@@ -116,6 +137,26 @@
       document.execCommand("copy");
       document.body.removeChild(temp);
       alert("Link telah disalin!");
+    }
+
+    // Script semakan overlay password
+    const overlayPass = "vip30";
+
+    function checkOverlay() {
+      const input = document.getElementById("overlayPass").value;
+      if (input === overlayPass) {
+        sessionStorage.setItem("overlay_pass", "vip30");
+        document.getElementById("overlay").style.display = "none";
+      } else {
+        document.getElementById("overlayError").innerText = "Kata laluan salah.";
+      }
+    }
+
+    window.onload = function() {
+      const saved = sessionStorage.getItem("overlay_pass");
+      if (saved === overlayPass) {
+        document.getElementById("overlay").style.display = "none";
+      }
     }
   </script>
 </body>
