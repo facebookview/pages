@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirect dengan Butang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    #container {
+      max-width: 500px;
+    }
+
+    #layer {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #layer button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="layer">
+    <p>Sila klik "Teruskan" untuk meneruskan ke laman</p>
+    <p>🌟 SEMOGA KELUARGA ANDA DIMURAHKAN REZEKI 🌟</p>
+    <button onclick="goRedirect()">Teruskan</button>
+  </div>
+
+  <div id="container">
+    <h2>Sedang redirect ke laman anda...</h2>
+    <div class="loading">Sila tunggu sebentar.</div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const shopee = params.get("shopee");
+
+    // Senarai shortener yang disokong
+    const shorteners = ["bitly", "tly", "tinyurl", "tinycc", "isgd"];
+    let target = null;
+
+    for (const key of shorteners) {
+      if (params.has(key)) {
+        let base = {
+          bitly: "https://bit.ly/",
+          tly: "https://t.ly/",
+          tinyurl: "https://tinyurl.com/",
+          tinycc: "https://tiny.cc/",
+          isgd: "https://is.gd/"
+        }[key];
+        target = base + params.get(key);
+        break;
+      }
+    }
+
+    function goRedirect() {
+      document.getElementById("layer").style.display = "none";
+      if (shopee && target) {
+        window.open("https://shopee.com.my/" + shopee, "_blank");
+        setTimeout(() => {
+          window.location.href = target;
+        }, 1000);
+      } else {
+        document.querySelector(".loading").innerText = "Parameter tidak lengkap atau salah.";
+      }
+    }
+  </script>
+</body>
+</html>
