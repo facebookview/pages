@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>VIP Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    input {
+      padding: 10px;
+      width: 250px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Masukkan Kata Laluan Akses</h2>
+    <input type="password" id="password" placeholder="Kata Laluan" />
+    <br />
+    <button onclick="checkLogin()">Masuk</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <script>
+    const allowedPassword = "vip30";
+    const expiryDate = new Date("2025-08-03");
+
+    function checkLogin() {
+      const input = document.getElementById("password").value;
+      const today = new Date();
+
+      if (today > expiryDate) {
+        document.getElementById("errorMsg").innerText = "Akses tamat tempoh.";
+        return;
+      }
+
+      if (input === allowedPassword) {
+        window.location.href = "generator_with_note.html";
+      } else {
+        document.getElementById("errorMsg").innerText = "Kata laluan salah.";
+      }
+    }
+  </script>
+</body>
+</html>
