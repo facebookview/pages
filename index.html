@@ -6,10 +6,10 @@
   <title>Redirecting to Shopee…</title>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const shopeeCode = params.get("shopee");
+    const shortCode = params.get("s");
 
-    if (shopeeCode) {
-      window.location.href = "https://s.shopee.com.my/" + shopeeCode;
+    if (shortCode) {
+      window.location.href = "https://s.shopee.com.my/" + shortCode;
     } else {
       document.write("❌ Kod Shopee tidak dijumpai.");
     }
