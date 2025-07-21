@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Redirecting...</title>
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const shopeeCode = params.get("shopee");
-      const bitlyCode = params.get("bitly");
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to Shopee…</title>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const shopeeCode = params.get("shopee");
 
-      if (shopeeCode) {
-        window.location.href = "https://s.shopee.com.my/" + shopeeCode;
-      } else if (bitlyCode) {
-        window.location.href = "https://bit.ly/" + bitlyCode;
-      } else {
-        document.write("Invalid or missing redirect code.");
-      }
-    </script>
-  </head>
-  <body>
-    <p>Redirecting…</p>
-  </body>
+    if (shopeeCode) {
+      window.location.href = "https://s.shopee.com.my/" + shopeeCode;
+    } else {
+      document.write("❌ Kod Shopee tidak dijumpai.");
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting…</p>
+</body>
 </html>
