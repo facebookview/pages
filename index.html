@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const shopeeCode = params.get("shopee");
+      const bitlyCode = params.get("bitly");
+
+      if (shopeeCode) {
+        window.location.href = "https://s.shopee.com.my/" + shopeeCode;
+      } else if (bitlyCode) {
+        window.location.href = "https://bit.ly/" + bitlyCode;
+      } else {
+        document.write("Invalid or missing redirect code.");
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting…</p>
+  </body>
+</html>
